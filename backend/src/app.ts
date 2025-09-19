@@ -5,7 +5,7 @@ import authRoutes from './routes/authRoutes';
 import groupRoutes from './routes/groupRoutes';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 49171;
 
 app.use(cors({
     origin: 'http://localhost:8080', // Change to your frontend origin

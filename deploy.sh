@@ -33,6 +33,6 @@ npm run build
 
 echo "Restarting frontend server..."
 pm2 delete rally-frontend || true
-pm2 start "npx serve -s dist -l 8080" --name rally-frontend
+pm2 start "npx serve -s dist -l 49170" --name rally-frontend
 
 echo "Deployment complete!"
