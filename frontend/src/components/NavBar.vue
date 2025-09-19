@@ -30,7 +30,7 @@ const { logout } = useAuth();
 
 <style scoped>
 .navbar {
-    background-color: white;
+    background-color: var(--card-background);
     padding: 20px;
 }
 </style>
