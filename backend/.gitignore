@@ -1,0 +1,27 @@
+# Node modules
+node_modules
+
+# Build output
+dist/
+build/
+
+# Environment variables
+.env
+
+# Prisma generated files and local database
+prisma/dev.db
+prisma/dev.db-journal
+
+# OS files
+.DS_Store
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# VSCode settings (optional)
+.vscode/
+
+# Prisma migrations lock file
+prisma/migrations/migration_lock.toml
