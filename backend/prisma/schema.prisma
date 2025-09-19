@@ -8,7 +8,26 @@ generator client {
 }
 
 model User {
-  id           String @id @default(uuid())
-  username     String @unique
+  id           String   @id @default(uuid())
+  username     String   @unique
   passwordHash String
+
+  // Groups where the user is a member
+  groups       Group[]  @relation("GroupMembers")
+
+  // Groups where the user is admin
+  adminGroups  Group[]  @relation("GroupAdmin")
+}
+
+model Group {
+  id      String   @id @default(uuid())
+  name    String
+  sport   String
+
+  // Admin relation (one-to-many)
+  admin   User     @relation("GroupAdmin", fields: [adminId], references: [id])
+  adminId String
+
+  // Members relation (many-to-many)
+  users   User[]   @relation("GroupMembers")
 }

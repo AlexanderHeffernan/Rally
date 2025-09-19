@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useAuth } from '../composables/useAuth';
 
 const mode = ref<'login' | 'register'>('login');
@@ -29,24 +29,27 @@ const username = ref('');
 const password = ref('');
 const error = ref('');
 const router = useRouter();
+const route = useRoute();
 const { login, register } = useAuth();
 
 const handleSubmit = async () => {
-    error.value = '';
-    try {
+  error.value = '';
+  try {
     if (mode.value === 'login') {
-        await login(username.value, password.value);
+      await login(username.value, password.value);
     } else {
-        await register(username.value, password.value);
+      await register(username.value, password.value);
     }
-    router.push('/');
-    } catch (e: any) {
+    // Redirect to original destination or home
+    const redirect = route.query.redirect as string || '/';
+    router.replace(redirect);
+  } catch (e: any) {
     error.value = e.message || 'Error';
-    }
+  }
 };
 
 const toggleMode = () => {
-    mode.value = mode.value === 'login' ? 'register' : 'login';
-    error.value = '';
+  mode.value = mode.value === 'login' ? 'register' : 'login';
+  error.value = '';
 };
 </script>

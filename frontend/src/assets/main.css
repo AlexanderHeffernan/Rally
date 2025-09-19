@@ -1,3 +1,9 @@
+:root {
+    --primary-color: #155dfb;
+    --primary-color-light: #e0eaff;
+    --secondary-color: #00c950;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -26,13 +32,40 @@ h2 {
 
 h3 {
     font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+h4 {
+    font-size: 1.125rem;
+    margin-bottom: 0.25rem;
+}
+
+h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #101828;
 }
 
 .gradient-text-effect {
     color: #155dfb;
-    background-image: linear-gradient(90deg, #155dfb 0%, #00c950 100%);
+    background-image: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
+}
+
+.card {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1), 0 3px 2px rgba(0, 0, 0, 0.06);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: box-shadow 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.06);
 }

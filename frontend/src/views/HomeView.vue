@@ -8,15 +8,14 @@
                 <h2>Action Required</h2>
             </div>
             <div class="side-panel">
-                <h3>My Groups</h3>
-                <h3>Quick Actions</h3>
+                <SideBar />
             </div>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-
+import SideBar from '../components/SideBar.vue';
 </script>
 
 <style scoped>

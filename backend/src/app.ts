@@ -2,6 +2,7 @@ import express from 'express';
 import session from 'express-session';
 import cors from 'cors';
 import authRoutes from './routes/authRoutes';
+import groupRoutes from './routes/groupRoutes';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -21,6 +22,7 @@ app.use(session({
 }));
 
 app.use('/api/auth', authRoutes);
+app.use('/api/groups', groupRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

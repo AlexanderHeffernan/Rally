@@ -6,7 +6,7 @@
 <script lang="ts" setup>
 import NavBar from './components/NavBar.vue';
 import { onMounted } from 'vue';
-import { fetchUser } from './composables/useAuth';
+import { fetchUser, user } from './composables/useAuth';
 
 onMounted(() => {
     fetchUser();
