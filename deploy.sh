@@ -3,7 +3,7 @@
 set -e
 
 # Set your project directory
-PROJECT_DIR="/home/alexh/rally"
+PROJECT_DIR="/home/alexh/Rally"
 
 cd "$PROJECT_DIR"
 
