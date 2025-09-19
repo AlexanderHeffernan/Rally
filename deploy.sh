@@ -20,7 +20,7 @@ npx prisma migrate deploy
 echo "Restarting backend..."
 # You can use pm2, or kill and restart the process, or use nodemon for dev
 pm2 delete rally-backend || true
-pm2 start:prod src/app.ts --name rally-backend --watch --interpreter ./node_modules/.bin/ts-node
+pm2 start npm --name rally-backend -- run start:prod
 
 cd ..
 
