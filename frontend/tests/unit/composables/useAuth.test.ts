@@ -2,8 +2,6 @@ import { user, useAuth, fetchUser } from '@/composables/useAuth';
 import 'jest';
 
 describe('useAuth compsable', () => {
-    const mockFetch = global.fetch as jest.Mock;
-
     beforeEach(() => {
         global.fetch = jest.fn();
         user.value = null;
