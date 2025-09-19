@@ -1,22 +1,27 @@
 <template>
-  <div>
-    <h2>{{ mode === 'login' ? 'Login' : 'Register' }}</h2>
-    <form @submit.prevent="handleSubmit">
-      <div>
-        <label>Username:</label>
-        <input v-model="username" required />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input type="password" v-model="password" required />
-      </div>
-      <button type="submit">{{ mode === 'login' ? 'Login' : 'Register' }}</button>
-    </form>
-    <button @click="toggleMode">
-      {{ mode === 'login' ? 'Need an account? Register' : 'Already have an account? Login' }}
-    </button>
-    <div v-if="error" style="color:red">{{ error }}</div>
-  </div>
+    <div>
+        <h2>{{ mode === 'login' ? 'Login' : 'Register' }}</h2>
+        <!-- Login/Register Form -->
+        <form @submit.prevent="handleSubmit">
+            <div>
+                <label>Username:</label>
+                <input v-model="username" required />
+            </div>
+            <div>
+                <label>Password:</label>
+                <input type="password" v-model="password" required />
+            </div>
+            <button type="submit">{{ mode === 'login' ? 'Login' : 'Register' }}</button>
+        </form>
+        
+        <!-- Toggle Mode Button -->
+        <button @click="toggleMode">
+            {{ mode === 'login' ? 'Need an account? Register' : 'Already have an account? Login' }}
+        </button>
+
+        <!-- Error Message-->
+        <div v-if="error" style="color:red">{{ error }}</div>
+    </div>
 </template>
 
 <script lang="ts" setup>
@@ -33,23 +38,20 @@ const route = useRoute();
 const { login, register } = useAuth();
 
 const handleSubmit = async () => {
-  error.value = '';
-  try {
-    if (mode.value === 'login') {
-      await login(username.value, password.value);
-    } else {
-      await register(username.value, password.value);
+    error.value = '';
+    try {
+        if (mode.value === 'login') { await login(username.value, password.value); }
+        else { await register(username.value, password.value); }
+        // Redirect to original destination or home
+        const redirect = route.query.redirect as string || '/';
+        router.replace(redirect);
+    } catch (e: any) {
+        error.value = e.message || 'Error';
     }
-    // Redirect to original destination or home
-    const redirect = route.query.redirect as string || '/';
-    router.replace(redirect);
-  } catch (e: any) {
-    error.value = e.message || 'Error';
-  }
 };
 
 const toggleMode = () => {
-  mode.value = mode.value === 'login' ? 'register' : 'login';
-  error.value = '';
+    mode.value = mode.value === 'login' ? 'register' : 'login';
+    error.value = '';
 };
 </script>
