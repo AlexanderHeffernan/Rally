@@ -40,7 +40,7 @@ const inviteLink = computed(() =>
 );
 
 async function fetchGroup() {
-  const res = await fetch(`http://localhost:3000/api/groups/${route.params.id}`, {
+  const res = await fetch(`${process.env.VUE_APP_API_URL}/groups/${route.params.id}`, {
     credentials: 'include'
   });
   if (res.ok) {
@@ -60,7 +60,7 @@ async function fetchGroup() {
 
 async function joinGroup() {
   joinError.value = '';
-  const res = await fetch(`http://localhost:3000/api/groups/${route.params.id}/join`, {
+  const res = await fetch(`${process.env.VUE_APP_API_URL}/groups/${route.params.id}/join`, {
     method: 'POST',
     credentials: 'include'
   });

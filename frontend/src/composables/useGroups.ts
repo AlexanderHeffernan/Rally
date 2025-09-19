@@ -11,7 +11,7 @@ export interface Group {
 export const groups = ref<Group[]>([]);
 
 export async function fetchMyGroups() {
-  const res = await fetch('http://localhost:3000/api/groups/my', { credentials: 'include' });
+  const res = await fetch(process.env.VUE_APP_API_URL + '/groups/my', { credentials: 'include' });
   if (res.ok) {
     groups.value = await res.json();
   } else {
@@ -20,7 +20,7 @@ export async function fetchMyGroups() {
 }
 
 export async function createGroup(name: string, sport: string) {
-  const res = await fetch('http://localhost:3000/api/groups', {
+  const res = await fetch(process.env.VUE_APP_API_URL + '/groups', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',

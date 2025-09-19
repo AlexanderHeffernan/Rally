@@ -1,14 +1,16 @@
 import express from 'express';
 import session from 'express-session';
 import cors from 'cors';
+import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes';
 import groupRoutes from './routes/groupRoutes';
 
+dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 49171;
 
 app.use(cors({
-    origin: 'http://localhost:8080', // Change to your frontend origin
+    origin: process.env.CORS_ORIGIN || 'http://localhost:8080', // Change to your frontend origin
     credentials: true
 }));
 app.use(express.json());

@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 
-const API = 'http://localhost:3000/api/auth';
+const API = process.env.VUE_APP_API_URL + '/auth';
 
 export const user = ref<{ username: string } | null>(null);
 export const loading = ref(true);
