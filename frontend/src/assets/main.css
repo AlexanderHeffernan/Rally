@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
+}
+
+html, body {
+    background-color: #F6FAFE;
+    height: 100%;
+}
+
+h1, h2 {
+    color: #101828;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+h1 {
+    font-size: 1.875rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+h3 {
+    font-size: 1.25rem;
+}
+
+.gradient-text-effect {
+    color: #155dfb;
+    background-image: linear-gradient(90deg, #155dfb 0%, #00c950 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
