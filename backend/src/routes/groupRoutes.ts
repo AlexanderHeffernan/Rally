@@ -3,6 +3,7 @@ import { createGroupHandler, getMyGroupsHandler, getGroupHandler, joinGroupHandl
 
 const router = Router();
 
+// Group routes
 router.post('/', createGroupHandler);
 router.get('/my', getMyGroupsHandler);
 router.get('/:id', getGroupHandler);
