@@ -17,6 +17,8 @@ model User {
 
   // Groups where the user is admin
   adminGroups  Group[]  @relation("GroupAdmin")
+
+  availability Json?
 }
 
 model Group {

@@ -2,12 +2,14 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import AuthView from '../views/AuthView.vue';
 import GroupView from '../views/GroupView.vue';
+import AccountView from '../views/AccountView.vue';
 import { user, fetchUser } from '../composables/useAuth';
 
 const routes: Array<RouteRecordRaw> = [
   { path: '/', name: 'Home', component: HomeView },
   { path: '/auth', name: 'Auth', component: AuthView },
-  { path: '/groups/:id', name: 'Group', component: GroupView }
+  { path: '/groups/:id', name: 'Group', component: GroupView },
+  { path: '/account', name: 'Account', component: AccountView }
 ];
 
 const router = createRouter({

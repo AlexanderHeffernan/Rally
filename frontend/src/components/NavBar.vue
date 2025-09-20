@@ -8,7 +8,7 @@
             </template>
             <!-- User loaded state-->
             <template v-else-if="user">
-                <span>{{ user.username }}</span>
+                <span @click="goToAccount" style="cursor: pointer;">{{ user.username }}</span>
                 <button @click="logout">Log Out</button>
             </template>
             <!-- No user state -->
@@ -27,9 +27,8 @@ import { useRouter } from 'vue-router';
 const { logout } = useAuth();
 
 const router = useRouter();
-const handleHomeClick = () => {
-    router.push('/');
-};
+const handleHomeClick = () => { router.push('/'); };
+const goToAccount = () => { router.push('/account'); };
 </script>
 
 <style scoped>

@@ -5,6 +5,7 @@
     --secondary-color-light: #e0f7ed;
     --background-color: #F6FAFE;
     --card-background: #fff;
+    --card-background-dark: #f3f6fa;
     --text-color: #101828;
     --note-color: #4A5565;
     --card-shadow: 0 3px 3px rgba(0, 0, 0, 0.1), 0 3px 2px rgba(0, 0, 0, 0.06);
@@ -19,6 +20,7 @@
         --secondary-color-light: #003d1a;
         --background-color: #181f2a;
         --card-background: #232b3a;
+        --card-background-dark: #1c2533;
         --text-color: #f3f6fa;
         --note-color: #94a3b8;
         --card-shadow: 0 3px 6px rgba(0,0,0,0.4), 0 1.5px 1.5px rgba(0,0,0,0.25);

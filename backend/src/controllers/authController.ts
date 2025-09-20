@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import { addUser, findUserByUsername } from '../models/userModel';
+import { addUser, findUserByUsername, getUserAvailability, setUserAvailability } from '../models/userModel';
 
 /**
  * Register a new user.
@@ -73,4 +73,30 @@ export const logout = (req: Request, res: Response) => {
     req.session.destroy(() => {
         res.json({ message: 'Logged out.' });
     });
+};
+
+/**
+ * Get the current user's availability.
+ * @param req 
+ * @param res 
+ * @returns 200 with availability data or 401 if not logged in.
+ */
+export const getAvailability = async (req: Request, res: Response) => {
+    if (!req.session.userId) return res.status(401).json({ message: 'Unauthorized' });
+    const result = await getUserAvailability(req.session.userId);
+    res.json({ availability: result?.availability || {} });
+};
+
+/**
+ * Update the current user's availability.
+ * @param req 
+ * @param res 
+ * @returns 200 on success or 401 if not logged in.
+ */
+export const updateAvailability = async (req: Request, res: Response) => {
+    if (!req.session.userId) return res.status(401).json({ message: 'Unauthorized' });
+    const { availability } = req.body;
+    if (!availability) return res.status(400).json({ message: 'No availability provided' });
+    await setUserAvailability(req.session.userId, availability);
+    res.json({ message: 'Availability updated' });
 };

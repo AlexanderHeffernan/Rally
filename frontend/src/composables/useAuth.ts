@@ -4,6 +4,7 @@ const API = process.env.VUE_APP_API_URL + '/auth';
 
 // Globally accessible user state
 export const user = ref<{ username: string } | null>(null);
+export const availability = ref<{ [day: string]: number[] }>({});
 export const loading = ref(true);
 
 /**
@@ -72,4 +73,24 @@ export function useAuth() {
     };
 
     return { user, login, register, logout, fetchUser };
+}
+
+export async function fetchAvailability() {
+    const res = await fetch(`${API}/availability`, { credentials: 'include' });
+    if (res.ok) {
+        const data = await res.json();
+        availability.value = data.availability || {};
+    }
+}
+
+export async function updateAvailability(newAvailability: any) {
+    const res = await fetch(`${API}/availability`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ availability: newAvailability })
+    });
+    if (res.ok) {
+        availability.value = { ...newAvailability };
+    }
 }
