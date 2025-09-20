@@ -35,6 +35,25 @@
                     </li>
                 </ul>
             </div>
+            <div>
+                <h4>Create Session</h4>
+                <input type="date" v-model="newSessionDate" />
+                <input type="number" v-model="newSessionStart" min="0" max="23" />
+                <input type="number" v-model="newSessionEnd" min="1" max="24" />
+                <button @click="handleCreateSession">Create</button>
+            </div>
+        </div>
+        <div>
+            <h3>Sessions</h3>
+            <ul>
+                <li v-for="s in sessions" :key="s.id">
+                    {{ s.date.slice(0,10) }} {{ hourLabel(s.startHour) }}-{{ hourLabel(s.endHour) }}
+                    <span v-if="s.going.some(u => u.username === user?.username)">✅</span>
+                    <span v-else-if="s.notGoing.some(u => u.username === user?.username)">❌</span>
+                    <button @click="handleRespond(s.id, true)">Yes</button>
+                    <button @click="handleRespond(s.id, false)">No</button>
+                </li>
+            </ul>
         </div>
     </div>
     <!-- Loading State-->
@@ -48,6 +67,7 @@ import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { user } from '../composables/useAuth';
 import { fetchGroup, joinGroup, fetchGroupAvailabilities } from '../composables/useGroups';
+import { fetchGroupSessions, createSession, respondToSession, sessions } from '../composables/useSessions';
 
 const route = useRoute();
 const group = ref<any>(null);
@@ -58,6 +78,10 @@ const joinError = ref('');
 const availabilities = ref<{ [username: string]: { [day: string]: number[] } }>({});
 const showSessionSuggest = ref(false);
 const sessionSuggestions = ref<{ day: string, hour: number, count: number }[]>([]);
+
+const newSessionDate = ref('');
+const newSessionStart = ref(7);
+const newSessionEnd = ref(9);
 
 /** Computed invite link based on current URL and group ID. */
 const inviteLink = computed(() =>
@@ -139,6 +163,21 @@ function hourLabel(hour: number) {
     return `${display} ${ampm}`;
 }
 
+async function handleCreateSession() {
+    if (!group.value) return;
+    await createSession(group.value.id, newSessionDate.value, newSessionStart.value, newSessionEnd.value);
+    await fetchGroupSessions(group.value.id);
+}
+async function handleRespond(sessionId: string, going: boolean) {
+    await respondToSession(sessionId, going);
+    await fetchGroupSessions(group.value.id);
+}
+
 /** Fetch group on load. */
-onMounted(handleFetchGroup);
+onMounted(() => {
+    handleFetchGroup();
+    if (group.value) {
+        fetchGroupSessions(group.value.id);
+    }
+});
 </script>

@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes';
 import groupRoutes from './routes/groupRoutes';
+import sessionRoutes from './routes/sessionRoutes';
 
 // Load environment variables from .env files
 dotenv.config();
@@ -35,6 +36,7 @@ app.use(session({
 // Define routes
 app.use('/api/auth', authRoutes);
 app.use('/api/groups', groupRoutes);
+app.use('/api/sessions', sessionRoutes);
 
 // Start the server
 app.listen(PORT, () => {

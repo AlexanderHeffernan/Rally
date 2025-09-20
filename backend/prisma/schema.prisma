@@ -19,6 +19,10 @@ model User {
   adminGroups  Group[]  @relation("GroupAdmin")
 
   availability Json?
+
+  // Add these lines:
+  sessionsGoing   Session[] @relation("SessionGoing")
+  sessionsNotGoing Session[] @relation("SessionNotGoing")
 }
 
 model Group {
@@ -32,4 +36,18 @@ model Group {
 
   // Members relation (many-to-many)
   users   User[]   @relation("GroupMembers")
+
+  // Add this line:
+  sessions Session[]
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  group     Group    @relation(fields: [groupId], references: [id])
+  groupId   String
+  date      DateTime
+  startHour Int
+  endHour   Int
+  going     User[]   @relation("SessionGoing")
+  notGoing  User[]   @relation("SessionNotGoing")
 }
