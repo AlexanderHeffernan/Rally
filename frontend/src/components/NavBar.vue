@@ -1,6 +1,6 @@
 <template>
     <div class="navbar">
-        <h1 class="gradient-text-effect">Rally</h1>
+        <h1 @click="handleHomeClick" class="gradient-text-effect" style="cursor: pointer;">Rally</h1>
         <div style="float:right">
             <!-- Loading user state -->
             <template v-if="loading">
@@ -22,10 +22,14 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-import { user, loading, useAuth, fetchUser } from '../composables/useAuth';
-
+import { user, loading, useAuth } from '../composables/useAuth';
+import { useRouter } from 'vue-router';
 const { logout } = useAuth();
+
+const router = useRouter();
+const handleHomeClick = () => {
+    router.push('/');
+};
 </script>
 
 <style scoped>
