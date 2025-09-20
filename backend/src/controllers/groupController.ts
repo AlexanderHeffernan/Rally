@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { getGroupById, addUserToGroup, createGroup, getGroupsForUser } from '../models/groupModel';
+import { findUserById } from '../models/userModel';
 
 /**
  * Handler to create a new group.
@@ -71,4 +72,22 @@ export const joinGroupHandler = async (req: Request, res: Response) => {
     } catch {
         res.status(400).json({ message: 'Could not join group' });
     }
+};
+
+/**
+ * Handler to get availabilities for all group members.
+ */
+export const getGroupAvailabilitiesHandler = async (req: Request, res: Response) => {
+    const groupId = req.params.id;
+    const group = await getGroupById(groupId);
+    if (!group) return res.status(404).json({ message: 'Group not found' });
+
+    // Get each user's availability
+    const users = group.users;
+    const availabilities = {};
+    for (const user of users) {
+        const dbUser = await findUserById(user.id);
+        availabilities[user.username] = dbUser?.availability || {};
+    }
+    res.json({ availabilities });
 };

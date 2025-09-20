@@ -24,6 +24,18 @@
             <button @click="handleJoinGroup">Join Group</button>
             <span v-if="joinError" style="color:red">{{ joinError }}</span>
         </div>
+
+        <div v-if="user && group.admin.username === user.username">
+            <button @click="suggestSessions">Suggest Session Times</button>
+            <div v-if="showSessionSuggest">
+                <h4>Best Times (most available members):</h4>
+                <ul>
+                    <li v-for="s in sessionSuggestions.slice(0, 5)" :key="s.day + s.hour">
+                        {{ s.day }} {{ hourLabel(s.hour) }} ({{ s.count }} available)
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
     <!-- Loading State-->
     <div v-else>
@@ -35,13 +47,17 @@
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { user } from '../composables/useAuth';
-import { fetchGroup, joinGroup } from '../composables/useGroups';
+import { fetchGroup, joinGroup, fetchGroupAvailabilities } from '../composables/useGroups';
 
 const route = useRoute();
 const group = ref<any>(null);
 const copied = ref(false);
 const showJoin = ref(false);
 const joinError = ref('');
+
+const availabilities = ref<{ [username: string]: { [day: string]: number[] } }>({});
+const showSessionSuggest = ref(false);
+const sessionSuggestions = ref<{ day: string, hour: number, count: number }[]>([]);
 
 /** Computed invite link based on current URL and group ID. */
 const inviteLink = computed(() =>
@@ -66,6 +82,12 @@ async function handleFetchGroup() {
     const hasInvite = route.query.invite === '1';
 
     showJoin.value = !!user.value && !isMember && hasInvite;
+
+    // Fetch availabilities if admin
+    if (user.value && group.value.admin.username === user.value.username) {
+        availabilities.value = await fetchGroupAvailabilities(group.value.id);
+        suggestSessions();
+    }
 }
 
 /**
@@ -82,6 +104,39 @@ async function handleJoinGroup() {
     } else {
         joinError.value = (await res).message || 'Failed to join group';
     }
+}
+
+/**
+ * Compute session suggestions based on group availabilities.
+ */
+function suggestSessions() {
+    // Build a map: { day: { hour: count } }
+    const counts: Record<string, Record<number, number>> = {};
+    for (const username in availabilities.value) {
+        const userAvail = availabilities.value[username];
+        for (const day in userAvail) {
+            if (!counts[day]) counts[day] = {};
+            for (const hour of userAvail[day]) {
+                counts[day][hour] = (counts[day][hour] || 0) + 1;
+            }
+        }
+    }
+    // Flatten to array and sort by count descending
+    const suggestions: { day: string, hour: number, count: number }[] = [];
+    for (const day in counts) {
+        for (const hour in counts[day]) {
+            suggestions.push({ day, hour: Number(hour), count: counts[day][hour] });
+        }
+    }
+    suggestions.sort((a, b) => b.count - a.count);
+    sessionSuggestions.value = suggestions;
+    showSessionSuggest.value = true;
+}
+
+function hourLabel(hour: number) {
+    const ampm = hour < 12 ? 'AM' : 'PM';
+    const display = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+    return `${display} ${ampm}`;
 }
 
 /** Fetch group on load. */

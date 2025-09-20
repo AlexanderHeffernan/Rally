@@ -78,3 +78,11 @@ export async function joinGroup(id: string): Promise<{ ok: boolean; message?: st
         return { ok: false, message: 'Network error' };
     }
 }
+
+export async function fetchGroupAvailabilities(groupId: string) {
+    const res = await fetch(`${API}/${groupId}/availabilities`, { credentials: 'include' });
+    if (res.ok) {
+        return (await res.json()).availabilities;
+    }
+    return {};
+}
