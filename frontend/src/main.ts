@@ -7,9 +7,12 @@ import './assets/main.css';
 // Font Awesome setup
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faUser, faRightFromBracket, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faPlus);
+library.add(faUser);
+library.add(faRightFromBracket);
+library.add(faChevronDown);
 
 const app = createApp(App);
 app.component('font-awesome-icon', FontAwesomeIcon);

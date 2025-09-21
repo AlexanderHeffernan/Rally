@@ -3,6 +3,8 @@
     --primary-color-light: #e0eaff;
     --secondary-color: #00c950;
     --secondary-color-light: #e0f7ed;
+    --negative-color: #ff3b30;
+    --negative-color-light: #ffe5e3;
     --background-color: #F6FAFE;
     --card-background: #fff;
     --card-background-dark: #f3f6fa;
@@ -18,6 +20,8 @@
         --primary-color-light: #23304a;
         --secondary-color: #00c950;
         --secondary-color-light: #003d1a;
+        --negative-color: #ff453a;
+        --negative-color-light: #4a0b07;
         --background-color: #181f2a;
         --card-background: #232b3a;
         --card-background-dark: #1c2533;
@@ -122,4 +126,12 @@ h5 {
 
 .secondary-button.secondary:hover {
     background-color: var(--secondary-color-light);
+}
+
+.secondary-button.negative {
+    border-color: var(--negative-color);
+}
+
+.secondary-button.negative:hover {
+    background-color: var(--negative-color-light);
 }
